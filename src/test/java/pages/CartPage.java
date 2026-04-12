@@ -1,20 +1,24 @@
 package pages;
 
+import maps.CartMap;
+import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
 public class CartPage {
     WebDriver driver;
-
-    private By precoCarrinho = By.xpath("//span[contains(text(),'R$')]");
+    CartMap cartMap;
 
     public CartPage(WebDriver driver) {
         this.driver = driver;
+        cartMap = new CartMap();
+        PageFactory.initElements(driver, cartMap);
     }
 
     public String getPrecoCarrinho() throws InterruptedException {
@@ -28,10 +32,9 @@ public class CartPage {
         );
 
         WebElement elemento = wait.until(d ->
-                driver.findElement(precoCarrinho)
+                cartMap.precoCarrinho
         );
 
-        // 🔥 JS AQUI (correto)
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         String valor = "";

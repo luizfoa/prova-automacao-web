@@ -1,26 +1,26 @@
 package pages;
 
-import org.openqa.selenium.By;
+import maps.HomeMap;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
 public class HomePage {
     WebDriver driver;
-
-    private By cookies = By.id("onetrust-accept-btn-handler");
-    private By campoBusca = By.id("headerSearch");
-    private By botaoBusca = By.cssSelector("ptz-icon");
+    HomeMap homeMap;
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
+        homeMap = new HomeMap();
+        PageFactory.initElements(driver, homeMap);
     }
 
     public void aceitarCookies() {
-        driver.findElement(cookies).click();
+        homeMap.cookies.click();
     }
 
     public void buscarProduto(String produto) {
-        driver.findElement(campoBusca).sendKeys(produto);
-        driver.findElement(botaoBusca).click();
+        homeMap.campoBusca.sendKeys(produto);
+        homeMap.botaoBusca.click();
     }
 }
 
