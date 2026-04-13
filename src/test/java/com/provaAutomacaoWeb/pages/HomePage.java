@@ -1,6 +1,7 @@
-package pages;
+package com.provaAutomacaoWeb.pages;
 
-import maps.HomeMap;
+import com.provaAutomacaoWeb.core.Driver;
+import com.provaAutomacaoWeb.maps.HomeMap;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
@@ -11,7 +12,7 @@ public class HomePage {
     public HomePage(WebDriver driver) {
         this.driver = driver;
         homeMap = new HomeMap();
-        PageFactory.initElements(driver, homeMap);
+        PageFactory.initElements(Driver.getDriver(), homeMap);
     }
 
     public void aceitarCookies() {
