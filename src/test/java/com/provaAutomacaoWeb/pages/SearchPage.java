@@ -1,6 +1,7 @@
-package pages;
+package com.provaAutomacaoWeb.pages;
 
-import maps.SearchMap;
+import com.provaAutomacaoWeb.core.Driver;
+import com.provaAutomacaoWeb.maps.SearchMap;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -13,12 +14,14 @@ import java.time.Duration;
 
 public class SearchPage {
     WebDriver driver;
+    WebDriverWait wait;
     SearchMap searchMap;
 
     public SearchPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         searchMap = new SearchMap();
-        PageFactory.initElements(driver, searchMap);
+        PageFactory.initElements(Driver.getDriver(), searchMap);
     }
 
     public String getNomeProduto() {
@@ -34,20 +37,17 @@ public class SearchPage {
     }
 
     public void irParaSacola() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        By btnSacola = By.xpath("//*[@id='goToCheckoutButton']//button");
+        By botaoSacola = By.cssSelector("[data-testid='ptz-button-ir-para-sacola']");
 
-        WebElement botao = wait.until(ExpectedConditions.presenceOfElementLocated(btnSacola));
+        WebElement btn = wait.until(ExpectedConditions.presenceOfElementLocated(botaoSacola));
 
-// Scroll
-        ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].scrollIntoView(true);", botao);
+        wait.until(ExpectedConditions.visibilityOf(btn));
 
-// Pequena espera (modal carregar)
-        Thread.sleep(1000);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", btn);
 
-        ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].click();", botao);
+        Thread.sleep(500);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", btn);
 
     }
 }
