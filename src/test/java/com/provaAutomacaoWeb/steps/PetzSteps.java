@@ -58,7 +58,6 @@ public class PetzSteps {
     @Entao("o valor na sacola deve ser igual ao valor do produto")
     public void oValorNaSacolaDeveSerIgualAoValorDoProduto() throws InterruptedException {
         cartPage = new CartPage(Driver.driver);
-        searchPage = new SearchPage(Driver.driver);
 
         valorCarrinho = cartPage.getPrecoCarrinho();
 
