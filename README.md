@@ -19,22 +19,11 @@ A estrutura do projeto segue o padrão Page Object Model:
 
 ```
 src
- ├── main
- │    └── java
- │
- └── test
+ ├── test
       ├── java
       │     └── com.provaAutomacaoWeb.automacaoWeb
       │           ├── core
-      │           │     └── Driver.java
-      │           │
-      │           ├── hooks
-      │           │     └── Hooks.java
-      │           │
-      │           ├── maps
-      │           │     ├── CartMap.java
-      │           │     ├── HomeMap.java
-      │           │     └── SearchMap.java
+      │           │     └── DriverFactory.java
       │           │
       │           ├── pages
       │           │     ├── CartPage.java
