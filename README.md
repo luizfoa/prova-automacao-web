@@ -45,8 +45,6 @@ src
 ## Organização das camadas
 
 * **core** → Configuração do driver (WebDriver)
-* **hooks** → Métodos executados antes/depois dos testes
-* **maps** → Mapeamento dos elementos (localizadores)
 * **pages** → Ações e regras das páginas (Page Objects)
 * **steps** → Implementação dos passos do Cucumber
 * **runner** → Classe responsável por executar os testes
