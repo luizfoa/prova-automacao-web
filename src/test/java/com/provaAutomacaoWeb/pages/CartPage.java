@@ -1,59 +1,33 @@
 package com.provaAutomacaoWeb.pages;
 
-import com.provaAutomacaoWeb.core.Driver;
-import com.provaAutomacaoWeb.maps.CartMap;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 
+
 public class CartPage {
-    WebDriver driver;
-    WebDriverWait wait;
-    CartMap cartMap;
+
+    private WebDriver driver;
+
+    private By precoProduto = By.xpath("//*/div[3]/div[2]/div/div/span");
+    private By botaoAdicionar = By.xpath("//*[@id=\"goToCheckoutButton\"]/button");
+    private By precoSacola = By.xpath("//*[@id=\"resumeValues\"]/div[2]/div[2]/div[2]/div");
 
     public CartPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        cartMap = new CartMap();
-        PageFactory.initElements(Driver.getDriver(), cartMap);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
-    public String getPrecoCarrinho() throws InterruptedException {
+    public String capturarPrecoProduto() {
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        return driver.findElement(precoProduto).getText();
+    }
 
-        wait.until(driver ->
-                driver.getCurrentUrl().contains("sacola") ||
-                        driver.getCurrentUrl().contains("checkout")
-        );
+    public void adicionarNaSacola() {
+        driver.findElement(botaoAdicionar).click();
+    }
 
-        WebElement elemento = wait.until(d ->
-                cartMap.precoCarrinho
-        );
-
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
-        String valor = "";
-
-        for (int i = 0; i < 5; i++) {
-            valor = (String) js.executeScript(
-                    "return arguments[0].innerText;",
-                    elemento
-            );
-
-            if (valor != null && !valor.trim().isEmpty()) {
-                break;
-            }
-
-            Thread.sleep(1000);
-        }
-
-        return valor.trim();
+    public String capturarPrecoSacola() {
+        return driver.findElement(precoSacola).getText();
     }
 }

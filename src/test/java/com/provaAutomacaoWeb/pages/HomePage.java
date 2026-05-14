@@ -1,27 +1,57 @@
 package com.provaAutomacaoWeb.pages;
 
-import com.provaAutomacaoWeb.core.Driver;
-import com.provaAutomacaoWeb.maps.HomeMap;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
+
 
 public class HomePage {
-    WebDriver driver;
-    HomeMap homeMap;
+
+    private WebDriver driver;
+    private By btnCookies = By.xpath("//*[@id=\"onetrust-accept-btn-handler\"]");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
-        homeMap = new HomeMap();
-        PageFactory.initElements(Driver.getDriver(), homeMap);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
-    public void aceitarCookies() {
-        homeMap.cookies.click();
+    public void acessarSite() {
+
+        driver.get("https://www.petz.com.br/");
+        driver.findElement(btnCookies).click();
     }
 
     public void buscarProduto(String produto) {
-        homeMap.campoBusca.sendKeys(produto);
-        homeMap.botaoBusca.click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        By searchBox = By.xpath("//input[contains(@placeholder,'O que seu pet precisa')]");
+
+        for (int i = 0; i < 3; i++) {
+
+            try {
+
+                WebElement campoBusca = wait.until(
+                        ExpectedConditions.elementToBeClickable(searchBox)
+                );
+
+                campoBusca.click();
+
+                campoBusca.clear();
+
+                campoBusca.sendKeys(produto);
+
+                campoBusca.sendKeys(Keys.ENTER);
+
+                break;
+
+            } catch (StaleElementReferenceException e) {
+
+                System.out.println("Elemento ficou stale. Tentando novamente...");
+            }
+        }
     }
+
 }
 
